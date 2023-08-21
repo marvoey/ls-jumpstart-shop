@@ -10,37 +10,36 @@ export default function Home(props) {
   console.log(page); // you can view this object in the console
   return (
     <>
-      {/* {JSON.stringify(page)} */}
-      <h1 className="font-bold text-2xl mb-4 text-center">{headline}</h1>
+      {/* {JSON.stringify(page)} */ }
+      <h1 className="mb-4 text-2xl font-bold text-center">{ headline }</h1>
       <div className="flex flex-col space-y-4">
-        {Array.isArray(sections)
+        { Array.isArray(sections)
           ? sections.map((section, sectionIndex) => {
-              const contentType = _.get(section, "sys.contentType.sys.id");
-              const sectionId = _.get(section, "sys.id");
-              const fields = _.get(section, "fields");
-              if (contentType === "productSection") {
-                return (
-                  <ProductSection
-                    key={sectionId}
-                    id={sectionId}
-                    fields={fields}
-                  />
-                );
-              }
+            const contentType = _.get(section, "sys.contentType.sys.id");
+            const sectionId = _.get(section, "sys.id");
+            const fields = _.get(section, "fields");
+            if (contentType === "productSection") {
+              return (
+                <ProductSection
+                  key={ sectionId }
+                  id={ sectionId }
+                  fields={ fields }
+                />
+              );
+            }
 
-              if (contentType === "product") {
-                return <>{contentType}</>;
-              }
+            if (contentType === "product") {
+              return <>{ contentType }</>;
+            }
 
-              return <></>;
-            })
-          : ""}
+            return <></>;
+          })
+          : "" }
       </div>
     </>
   );
 }
-
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const pageEntries = await getEntriesByContentType("landingPage", "home-page");
   let homepageEntry = _.get(pageEntries, "items[0]");
 
